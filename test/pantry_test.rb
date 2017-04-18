@@ -42,27 +42,27 @@ class PantryTest < Minitest::Test
     expected = {"Cheese" => 20, "Flour" => 20}
     assert_equal expected, pantry.shopping_list
   end
+
+  def test_pantry_can_merge_shopping_lists
+    pantry = Pantry.new
+    r = Recipe.new("Cheese Pizza")
+    r.add_ingredient("Cheese", 20)
+    r.add_ingredient("Flour", 20)
+
+    pantry.add_to_shopping_list(r)
+
+    r2 = Recipe.new("Spaghetti")
+    r2.add_ingredient("Noodles", 10)
+    r2.add_ingredient("Sauce", 10)
+    r2.add_ingredient("Cheese", 5)
+    pantry.add_to_shopping_list(r2)
+
+    expected = {"Cheese" => 25, "Flour" => 20, "Noodles" => 10, "Sauce" => 10}
+    assert_equal expected, pantry.shopping_list
+  end
 end
 
-# ```ruby
-# pantry = Pantry.new
-# # => <Pantry...>
-#
-# # Adding the recipe to the shopping list
-# pantry.add_to_shopping_list(r)
-#
-# # Checking the shopping list
-# pantry.shopping_list # => {"Cheese" => 20, "Flour" => 20}
-#
 # # Adding another recipe
-# r = Recipe.new("Spaghetti")
-# r.add_ingredient("Noodles", 10)
-# r.add_ingredient("Sauce", 10)
-# r.add_ingredient("Cheese", 5)
-# pantry.add_to_shopping_list(r)
-#
-# # Checking the shopping list
-# pantry.shopping_list # => {"Cheese" => 25, "Flour" => 20, "Noodles" => 10, "Sauce" => 10}
 #
 # # Printing the shopping list
 # pantry.print_shopping_list

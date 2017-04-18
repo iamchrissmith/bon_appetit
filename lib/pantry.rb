@@ -15,6 +15,6 @@ class Pantry
   end
 
   def add_to_shopping_list(recipe)
-    shopping_list.merge!(recipe.ingredients)
+    shopping_list.merge!(recipe.ingredients) {|key, oldval, newval| newval + oldval}
   end
 end
