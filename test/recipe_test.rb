@@ -22,4 +22,13 @@ class RecipeTest < Minitest::Test
     r.add_ingredient("Flour", 500)
     assert_equal 500, r.amount_required("Flour")
   end
+
+  def test_recipe_can_report_all_ingredients
+    r = Recipe.new("Cheese Pizza")
+
+    r.add_ingredient("Cheese", 20)
+    r.add_ingredient("Flour", 20)
+    expected = {"Cheese" => 20, "Flour" => 20}
+    assert_equal expected, r.ingredients
+  end
 end
