@@ -39,12 +39,16 @@ class Pantry
 
   def how_many_can_i_make
     possible_recipes = find_available_recipes.to_h
-    possible_recipes.group_by do |recipe|
-      recipe.reduce(0) do |max, (ingredient, quantity)|
+    how_many = {}
+    possible_recipes.each do |recipe_name, ingredients|
+      max_amount = ingredients.reduce(nil) do |max, (ingredient, quantity)|
         max_can_make = stock[ingredient] / quantity
-        max >  max_can_make ? max : max_can_make
+        max ||= max_can_make
+        max < max_can_make ? max : max_can_make
       end
+      how_many[recipe_name] = max_amount
     end
+    how_many
   end
 
   def find_available_recipes
