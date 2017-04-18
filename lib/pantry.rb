@@ -41,14 +41,18 @@ class Pantry
     possible_recipes = find_available_recipes.to_h
     how_many = {}
     possible_recipes.each do |recipe_name, ingredients|
-      max_amount = ingredients.reduce(nil) do |max, (ingredient, quantity)|
-        max_can_make = stock[ingredient] / quantity
-        max ||= max_can_make
-        max < max_can_make ? max : max_can_make
-      end
+      max_amount = find_max_for_recipe(ingredients)
       how_many[recipe_name] = max_amount
     end
     how_many
+  end
+
+  def find_max_for_recipe (ingredients)
+    ingredients.reduce(nil) do |max, (ingredient, quantity)|
+      max_can_make = stock[ingredient] / quantity
+      max ||= max_can_make
+      max < max_can_make ? max : max_can_make
+    end
   end
 
   def find_available_recipes
