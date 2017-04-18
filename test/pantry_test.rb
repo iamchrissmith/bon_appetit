@@ -60,15 +60,18 @@ class PantryTest < Minitest::Test
     expected = {"Cheese" => 25, "Flour" => 20, "Noodles" => 10, "Sauce" => 10}
     assert_equal expected, pantry.shopping_list
   end
-end
 
-# # Adding another recipe
-#
-# # Printing the shopping list
-# pantry.print_shopping_list
-# # * Cheese: 25
-# # * Flour: 20
-# # * Noodles: 10
-# # * Sauce: 10
-# # => "* Cheese: 20\n* Flour: 20\n* Spaghetti Noodles: 10\n* Marinara Sauce: 10"
-# ```
+  def test_pantry_can_provide_a_printed_shopping_list
+    pantry = Pantry.new
+    r = Recipe.new("Pasta")
+    r.add_ingredient("Cheese", 20)
+    r.add_ingredient("Flour", 20)
+    r.add_ingredient("Noodles", 10)
+    r.add_ingredient("Sauce", 10)
+
+    pantry.add_to_shopping_list(r)
+    expected = "* Cheese: 20\n* Flour: 20\n* Noodles: 10\n* Sauce: 10"
+    assert_output( stdout = "#{expected}\n" ) { pantry.print_shopping_list }
+    assert_equal expected, pantry.print_shopping_list
+  end
+end

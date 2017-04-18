@@ -17,4 +17,12 @@ class Pantry
   def add_to_shopping_list(recipe)
     shopping_list.merge!(recipe.ingredients) {|key, oldval, newval| newval + oldval}
   end
+
+  def print_shopping_list
+    list = shopping_list.map do |item, quantity|
+      "* #{item}: #{quantity}"
+    end
+    puts list
+    list.join("\n")
+  end
 end
