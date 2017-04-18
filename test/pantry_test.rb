@@ -30,6 +30,18 @@ class PantryTest < Minitest::Test
     pantry.restock("Cheese", 20)
     assert_equal 30, pantry.stock_check("Cheese")
   end
+
+  def test_pantry_can_have_shopping_list
+    pantry = Pantry.new
+    r = Recipe.new("Cheese Pizza")
+    r.add_ingredient("Cheese", 20)
+    r.add_ingredient("Flour", 20)
+
+    pantry.add_to_shopping_list(r)
+
+    expected = {"Cheese" => 20, "Flour" => 20}
+    assert_equal expected, pantry.shopping_list
+  end
 end
 
 # ```ruby
