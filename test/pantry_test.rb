@@ -104,6 +104,34 @@ class PantryTest < Minitest::Test
     expected = ["Pickles", "Peanuts"]
     assert_equal expected, pantry.what_can_i_make
   end
+
+  def test_how_many_can_i_make_returns_available_quanties_for_recipes_based_on_stock
+    pantry = Pantry.new
+
+    r1 = Recipe.new("Cheese Pizza")
+    r1.add_ingredient("Cheese", 20)
+    r1.add_ingredient("Flour", 20)
+
+    r2 = Recipe.new("Pickles")
+    r2.add_ingredient("Brine", 10)
+    r2.add_ingredient("Cucumbers", 30)
+
+    r3 = Recipe.new("Peanuts")
+    r3.add_ingredient("Raw nuts", 10)
+    r3.add_ingredient("Salt", 10)
+
+    pantry.add_to_cookbook(r1)
+    pantry.add_to_cookbook(r2)
+    pantry.add_to_cookbook(r3)
+
+    pantry.restock("Cheese", 10)
+    pantry.restock("Flour", 20)
+    pantry.restock("Brine", 40)
+    pantry.restock("Cucumbers", 40)
+    pantry.restock("Raw nuts", 20)
+    pantry.restock("Salt", 20)
+
+    expected = {"Pickles" => 1, "Peanuts" => 2}
+    assert_equal expected, pantry.how_many_can_i_make
+  end
 end
-# How many can I make?
-# pantry.how_many_can_i_make # => {"Brine Shot" => 4, "Peanuts" => 2}

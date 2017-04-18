@@ -37,6 +37,16 @@ class Pantry
     available_food.map {|recipes| recipes.first}
   end
 
+  def how_many_can_i_make
+    possible_recipes = find_available_recipes.to_h
+    possible_recipes.group_by do |recipe|
+      recipe.reduce(0) do |max, (ingredient, quantity)|
+        max_can_make = stock[ingredient] / quantity
+        max >  max_can_make ? max : max_can_make
+      end
+    end
+  end
+
   def find_available_recipes
     @cookbook.find_all do |recipe, ingredients|
       ingredients.all? do |name, amount_needed|
